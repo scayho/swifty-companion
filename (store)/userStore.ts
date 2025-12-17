@@ -1,6 +1,11 @@
 import { create } from "zustand";
+import { User } from "../interfaces/interface";
 
-export const useUserStore = create((set) => ({
+interface UserStore {
+  user: User | null;
+  setUser: (user: User) => void;
+}
+export const useUserStore = create<UserStore>((set) => ({
     user: null,
-    setUser: (user:any) => set({ user }),
+    setUser: (user:User) => set({ user }),
   }));

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useUserStore } from "../(store)/userStore";
+import { User, CursusUser, ProjectUser, Skill, CursusSectionProps } from "../interfaces/interface";
 
-function CursusSection({ cursus, cursusProjects }) {
+function CursusSection({ cursus, cursusProjects } : CursusSectionProps) {
   const [currentTab, setCurrentTab] = useState(1);
   return (
     <View style={{backgroundColor: '#ffffff',padding: 20,borderRadius: 16,marginBottom: 16}}>
@@ -32,7 +33,7 @@ function CursusSection({ cursus, cursusProjects }) {
       <ScrollView style={{maxHeight: 400}} nestedScrollEnabled>
         {currentTab ? (
           <View>
-            {cursus.skills.map((skill, skillid) => (
+            {cursus.skills.map((skill: Skill, skillid:number) => (
               <View key={skillid} style={{backgroundColor: '#343a40',padding: 14,borderRadius: 10,marginBottom: 10}}>
                 <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',marginBottom: 6}}>
                   <Text style={{fontSize: 16,fontWeight: '600',color: '#ffffff',flex: 1}}>{skill.name}</Text>
@@ -52,7 +53,7 @@ function CursusSection({ cursus, cursusProjects }) {
         ) : (
           <View>
             {cursusProjects.length > 0 ? (
-              cursusProjects.map((project, projectid) => 
+              cursusProjects.map((project:ProjectUser, projectid:number) => 
                 (
                 <View key={projectid} style={{backgroundColor: '#343a40',padding: 14,borderRadius: 10,marginBottom: 10}}>
                   <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',marginBottom: 8}}>
@@ -82,7 +83,7 @@ function CursusSection({ cursus, cursusProjects }) {
 
 
 export default function Profile() {
-  const userstore = useUserStore((state:any) => state.user);
+  const userstore: User = useUserStore((state:any) => state.user);
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
@@ -136,8 +137,8 @@ export default function Profile() {
           </View>
         </View>
         <View style={{paddingRight: 16, paddingLeft: 16}}>
-          {userstore.cursus_users.map((cursus, id) => {
-            const cursusProjects = userstore.projects_users.filter((project) => 
+          {userstore.cursus_users.map((cursus: CursusUser, id:number) => {
+            const cursusProjects = userstore.projects_users.filter((project: ProjectUser) => 
               project.cursus_ids.includes(cursus.cursus_id) 
             );
             return (

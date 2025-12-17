@@ -2,6 +2,7 @@ import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { ImageBackground, Pressable, Text, TextInput } from "react-native";
 import { useUserStore } from "../(store)/userStore";
+import { User } from "../interfaces/interface";
 
 async function  getintratoken(seterromessage:any)  {
   try {
@@ -20,7 +21,7 @@ async function  getintratoken(seterromessage:any)  {
   }
 }
 
-async function getuserinfo( token:string, login:string, setUser:any, seterromessage:any ) {
+async function getuserinfo( token:string, login:string, setUser: any, seterromessage:any ) {
 try {  
     console.log("hadi hya token :", token, " hada hwa login : ", login);
     const loginlowercase = login.toLowerCase();
@@ -39,7 +40,7 @@ try {
       seterromessage('Failed to fetch user');
     } else {
       seterromessage('');
-      const userData = await userRes.json();
+      const userData : User = await userRes.json();
       setUser(userData);
       router.push({pathname:"/Profile"});
     }
@@ -65,7 +66,7 @@ export default function Search() {
 
     const startsearch = async () => {
         setIsEditable(false);
-        if (Login.length && IntraToken.length)
+        if (Login.length && IntraToken?.length)
             await getuserinfo(IntraToken, Login, setUser, seterromessage);
         setIsEditable(true);
     }
@@ -82,17 +83,10 @@ export default function Search() {
             onChangeText={onChangeLogin}
             placeholder=" Intra Login ..."
             placeholderTextColor="white"
-
       />
-
-        <Pressable
-            onPress={startsearch}
-            style={{borderWidth: 2, borderColor: "white", width: 120
-            }}
-            >
+        <Pressable  style={{borderWidth: 2, borderColor: "white", width: 120}}  onPress={startsearch}>
             <Text style={{borderWidth: 2 , color: "white", fontSize: 24, fontWeight: "bold", textAlign: "center"}}> Search </Text>
         </Pressable>
-
     </ImageBackground>
   )
 }
